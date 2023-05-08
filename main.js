@@ -1,8 +1,17 @@
+let cursors;
+let currentScene = 0;
+const SCALE = 0.5;
+const tileSize = 35;
+
 // main game object
 let config = {
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1920,
+        height: 1080
+    }, 
     type: Phaser.WEBGL,
-    width: 840,
-    height: 525,
     physics: {
         default: 'arcade',
         arcade: {
