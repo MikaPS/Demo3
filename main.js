@@ -24,7 +24,8 @@ let config = {
             }
         }
     },
-    scene: [First]
+    // scene: [First, losingScreen]
+    scene: [BuildScene]
 };
 
 let game = new Phaser.Game(config);
