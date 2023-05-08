@@ -1,7 +1,7 @@
 let cursors;
 let currentScene = 0;
 let waterDamage = 0;
-let waterRate = 0;
+let waterRate = 10;
 const SCALE = 0.5;
 const tileSize = 35;
 

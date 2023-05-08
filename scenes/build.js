@@ -115,27 +115,61 @@ class BuildScene extends Phaser.Scene {
             .setFontSize(35)
             .setInteractive({useHandCursor: true})
             .on('pointerdown', () => {
+                // Adds the floor
                 if (this.woodBoatCount == 1 && this.plasticBoatCount == 1) {
                     this.woodBoat.x = this.w*0.7;
                     this.woodBoat.y = this.h*0.5;
                     this.plasticBoat.x = this.w*0.8;
                     this.plasticBoat.y = this.h*0.5;
+                    waterRate -= 1.5;
                 } else if (this.woodBoatCount == 2) {
                     this.woodBoat.x = this.w*0.7;
                     this.woodBoat.y = this.h*0.5;
                     this.woodBoat.x = this.w*0.8;
                     this.woodBoat.y = this.h*0.5;
+                    waterRate -= 2;
                 } else if (this.plasticBoatCount == 2) {
                     this.plasticBoat.x = this.w*0.7;
                     this.plasticBoat.y = this.h*0.5;
                     this.plasticBoat.x = this.w*0.8;
                     this.plasticBoat.y = this.h*0.5;
+                    waterRate -= 2.5;
                 } else if (this.woodBoatCount == 1) {
                     this.woodBoat.x = this.w*0.75;
                     this.woodBoat.y = this.h*0.5;
+                    waterRate -= 0.5;
                 } else if (this.plasticBoatCount == 1) {
                     this.plasticBoat.x = this.w*0.75;
                     this.plasticBoat.y = this.h*0.5;
+                    waterRate -= 1;
+                }
+                // Adds the sides
+                if (this.woodSideCount == 1 && this.plasticSideCount == 1) {
+                    this.woodSide.x = this.w*0.75;
+                    this.woodSide.y = this.h*0.45;
+                    this.plasticSide.x = this.w*0.75;
+                    this.plasticSide.y = this.h*0.56;
+                    waterRate -= 2;
+                } else if (this.woodSideCount == 2) {
+                    this.woodSide.x = this.w*0.75;
+                    this.woodSide.y = this.h*0.44;
+                    this.woodSide.x = this.w*0.75;
+                    this.woodSide.y = this.h*0.56;
+                    waterRate -= 1.5;
+                } else if (this.plasticSideCount == 2) {
+                    this.plasticSide.x = this.w*0.75;
+                    this.plasticSide.y = this.h*0.44;
+                    this.plasticSide.x = this.w*0.75;
+                    this.plasticSide.y = this.h*0.56;
+                    waterRate -= 2.5;
+                } else if (this.woodSideCount == 1) {
+                    this.woodSide.x = this.w*0.75;
+                    this.woodSide.y = this.h*0.44;
+                    waterRate -= 0.5;
+                } else if (this.plasticSideCount == 1) {
+                    this.plasticSide.x = this.w*0.75;
+                    this.plasticSide.y = this.h*0.44;
+                    waterRate -= 1;
                 }
             });
 
