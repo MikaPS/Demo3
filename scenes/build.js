@@ -1,7 +1,7 @@
 class BuildScene extends Phaser.Scene {
     constructor() {
         super('buildscene');
-        this.money = 50;
+        this.money = 1000;
         this.price = 0;
     }
 
@@ -13,6 +13,9 @@ class BuildScene extends Phaser.Scene {
     preload() {
         this.load.image('woodboat', '../assets/boat/woodboat.png');
         this.load.image('woodside', '../assets/boat/woodside.png');        
+        this.load.image('plasticboat', '../assets/boat/woodboat.png');
+        this.load.image('plasticside', '../assets/boat/woodside.png');        
+
     }
 
     create() {
@@ -43,13 +46,13 @@ class BuildScene extends Phaser.Scene {
             .setScale(0.5)
             .setInteractive({useHandCursor: true})
             .on('pointerover', () => {
-                this.price = 30;
+                this.price = 10;
                 this.priceTxt.setText("Price: " + this.price);
                 this.abilityTxt.setText("Basic wood");
             })
             .on('pointerdown', () => {
-                this.woodBoatCount += 1;
-                if (this.price <= this.money) {
+                if (this.price <= this.money && (this.woodBoatCount+this.plasticBoatCount) < 2) {
+                    this.woodBoatCount += 1;
                     this.money -= this.price;
                     this.moneyTxt.setText("Money: " + this.money);
                     this.woodBoatTxt.setText("x" + this.woodBoatCount);
@@ -65,15 +68,16 @@ class BuildScene extends Phaser.Scene {
                 this.abilityTxt.setText("Take less water damage");
             })
             .on('pointerdown', () => {
-                this.woodSideCount += 1;
-                if (this.price <= this.money) {
+                console.log(this.woodSideCount+this.plasticSideCount);
+                if (this.price <= this.money && (this.woodSideCount+this.plasticSideCount) < 2) {
+                    this.woodSideCount += 1;
                     this.money -= this.price;
                     this.moneyTxt.setText("Money: " + this.money);
                     this.woodSideTxt.setText("x" + this.woodSideCount);
                 }
             });
 
-        this.plasticBoat = this.add.image(this.w*0.3, this.h*0.3, "woodboat")
+        this.plasticBoat = this.add.image(this.w*0.3, this.h*0.3, "plasticboat")
             .setScale(0.5)
             .setInteractive({useHandCursor: true})
             .on('pointerover', () => {
@@ -82,15 +86,15 @@ class BuildScene extends Phaser.Scene {
                 this.abilityTxt.setText("More durable!");
             })
             .on('pointerdown', () => {
-                this.plasticBoatCount += 1;
-                if (this.price <= this.money) {
+                if (this.price <= this.money && (this.woodBoatCount+this.plasticBoatCount) < 2) {
+                    this.plasticBoatCount += 1;
                     this.money -= this.price;
                     this.moneyTxt.setText("Money: " + this.money);
                     this.plasticBoatTxt.setText("x" + this.plasticBoatCount);
                 }
             });
 
-        this.plasticSide = this.add.image(this.w*0.3, this.h*0.5, "woodside")
+        this.plasticSide = this.add.image(this.w*0.3, this.h*0.5, "plasticside")
             .setScale(0.6)
             .setInteractive({useHandCursor: true})
             .on('pointerover', () => {
@@ -99,8 +103,8 @@ class BuildScene extends Phaser.Scene {
                 this.abilityTxt.setText("Take even less water damage!");
             })
             .on('pointerdown', () => {
-                this.plasticSideCount += 1;
-                if (this.price <= this.money) {
+                if (this.price <= this.money && (this.woodSideCount+this.plasticSideCount) < 2) {
+                    this.plasticSideCount += 1;
                     this.money -= this.price;
                     this.moneyTxt.setText("Money: " + this.money);
                     this.plasticSideTxt.setText("x" + this.plasticSideCount);
@@ -111,7 +115,28 @@ class BuildScene extends Phaser.Scene {
             .setFontSize(35)
             .setInteractive({useHandCursor: true})
             .on('pointerdown', () => {
-                
+                if (this.woodBoatCount == 1 && this.plasticBoatCount == 1) {
+                    this.woodBoat.x = this.w*0.7;
+                    this.woodBoat.y = this.h*0.5;
+                    this.plasticBoat.x = this.w*0.8;
+                    this.plasticBoat.y = this.h*0.5;
+                } else if (this.woodBoatCount == 2) {
+                    this.woodBoat.x = this.w*0.7;
+                    this.woodBoat.y = this.h*0.5;
+                    this.woodBoat.x = this.w*0.8;
+                    this.woodBoat.y = this.h*0.5;
+                } else if (this.plasticBoatCount == 2) {
+                    this.plasticBoat.x = this.w*0.7;
+                    this.plasticBoat.y = this.h*0.5;
+                    this.plasticBoat.x = this.w*0.8;
+                    this.plasticBoat.y = this.h*0.5;
+                } else if (this.woodBoatCount == 1) {
+                    this.woodBoat.x = this.w*0.75;
+                    this.woodBoat.y = this.h*0.5;
+                } else if (this.plasticBoatCount == 1) {
+                    this.plasticBoat.x = this.w*0.75;
+                    this.plasticBoat.y = this.h*0.5;
+                }
             });
 
     }
