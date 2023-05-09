@@ -6,7 +6,7 @@ const SCALE = 0.5;
 const tileSize = 35;
 let distance = 0;
 let targetDist = 0;
-let level = 3;
+let level = 1;
 
 // main game object
 let config = {

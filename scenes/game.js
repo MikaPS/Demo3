@@ -3,7 +3,7 @@ class First extends Phaser.Scene {
         super('first');
         this.duration = 0;
         this.rock;
-        
+        this.canPress = true;
     }
 
    
@@ -25,6 +25,7 @@ class First extends Phaser.Scene {
             this.waterDelay = 3000;
             this.rockNum = 1;
             this.rockSpeed = 12;
+            waterDamage = 0;
         }
         else if (level == 2) {
             distance = 0;
@@ -32,12 +33,15 @@ class First extends Phaser.Scene {
             this.waterDelay = 2500;
             this.rockNum = 3;
             this.rockSpeed = 15;
+            this.hasBucket = true;
+            waterDamage = 0;
         } else {
             distance = 0;
             targetDist = 500;
             this.waterDelay = 3500;
             this.rockNum = 5;
             this.rockSpeed = 15;
+            waterDamage = 0;
         }
         // variables and settings
         this.ACCELERATION = 500;
@@ -86,19 +90,19 @@ class First extends Phaser.Scene {
         });
         this.distTxt = this.add.text(this.sys.game.config.width*0.82, this.sys.game.config.height*0.1, "Dist: " + parseInt(distance) + "/" + targetDist)
             .setFontSize(45);
-
+        this.lvlTxt = this.add.text(this.sys.game.config.width*0.82, this.sys.game.config.height*0.15, "Level: " + level)
+            .setFontSize(45);
         // handle rocks
-        this.rock = this.physics.add.sprite(0,0,'boat').setScale(0.2);
-        this.rock2 = this.physics.add.sprite(0,0,'boat').setScale(0.2);
-        this.rock3 = this.physics.add.sprite(0,0,'boat').setScale(0.2);
-        this.rock4 = this.physics.add.sprite(0,0,'boat').setScale(0.2);
-        this.rock5 = this.physics.add.sprite(0,0,'boat').setScale(0.2);
+        this.rock = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
+        this.rock2 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
+        this.rock3 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
+        this.rock4 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
+        this.rock5 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
     }
 
     update() {    
         // WINNING CONDITIONS
         if (distance >= targetDist) {
-            level = 2;
             this.scene.start('winningscreen');
         }
         this.text.setText("Dmg: " + waterDamage + "%");
@@ -168,13 +172,24 @@ class First extends Phaser.Scene {
             this.player.body.setDragY(this.DRAG);
         }
 
-        // Move faster based on how long the mouse click is
- 
+        
+        // console.log(this.canPress);
+        if (this.canPress == true) {
+            if (this.input.keyboard.checkDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE), 500)) {
+                console.log(this.canPress);
+                waterDamage -= 2;
+                this.time.addEvent({
+                    delay: 2000, // The delay between updates, in milliseconds
+                    callback: this.powerup, // The function to call on each update
+                    callbackScope: this,
+                });
+            } 
+        }
 
     }
 
     updateWater() {
-        waterDamage += 3;
+        waterDamage += 5;
     }
 
     updateDist() {
@@ -194,6 +209,10 @@ class First extends Phaser.Scene {
         // Set the position of the square to the random x and y coordinates
         item.x = x;
         item.y = y;
+    }
+
+    powerup() {
+        this.canPress = true;
     }
     
 }
