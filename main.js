@@ -4,6 +4,9 @@ let waterDamage = 0;
 let waterRate = 10;
 const SCALE = 0.5;
 const tileSize = 35;
+let distance = 0;
+let targetDist = 0;
+let level = 3;
 
 // main game object
 let config = {
@@ -25,7 +28,7 @@ let config = {
         }
     },
     // scene: [First, losingScreen]
-    scene: [BuildScene]
+    scene: [First, LosingScreen, WinningScreen]
 };
 
 let game = new Phaser.Game(config);

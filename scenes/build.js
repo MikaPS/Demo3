@@ -22,7 +22,6 @@ class BuildScene extends Phaser.Scene {
         this.text = this.add.text(this.w*0.1, this.h*0.05, "Build a Boat!")
             .setFontSize(60);
 
-       
         
         this.moneyTxt = this.add.text(this.w*0.6, this.h*0.05, "Money: " + this.money)
             .setFontSize(40);
@@ -42,6 +41,7 @@ class BuildScene extends Phaser.Scene {
         this.plasticSideCount = 0;
 
         this.line = this.add.rectangle(this.w/2, 0, this.w*0.02, this.h*2, 0xaabbcc);
+        this.woodBoat2 = this.add.image(this.w*0.1, this.h*0.3, "woodboat").setScale(0.5);
         this.woodBoat = this.add.image(this.w*0.1, this.h*0.3, "woodboat")
             .setScale(0.5)
             .setInteractive({useHandCursor: true})
@@ -58,7 +58,8 @@ class BuildScene extends Phaser.Scene {
                     this.woodBoatTxt.setText("x" + this.woodBoatCount);
                 }
             });
-
+        
+        this.woodSide2 = this.add.image(this.w*0.1, this.h*0.5, "woodside").setScale(0.6)
         this.woodSide = this.add.image(this.w*0.1, this.h*0.5, "woodside")
             .setScale(0.6)
             .setInteractive({useHandCursor: true})
@@ -77,6 +78,7 @@ class BuildScene extends Phaser.Scene {
                 }
             });
 
+        this.plasticBoat2 = this.add.image(this.w*0.3, this.h*0.3, "plasticboat").setScale(0.5);
         this.plasticBoat = this.add.image(this.w*0.3, this.h*0.3, "plasticboat")
             .setScale(0.5)
             .setInteractive({useHandCursor: true})
@@ -94,6 +96,7 @@ class BuildScene extends Phaser.Scene {
                 }
             });
 
+        this.plasticSide2 = this.add.image(this.w*0.3, this.h*0.5, "plasticside").setScale(0.6);
         this.plasticSide = this.add.image(this.w*0.3, this.h*0.5, "plasticside")
             .setScale(0.6)
             .setInteractive({useHandCursor: true})
@@ -110,7 +113,8 @@ class BuildScene extends Phaser.Scene {
                     this.plasticSideTxt.setText("x" + this.plasticSideCount);
                 }
             });
-
+        
+        // var container = this.add.container(0, 0);
         this.startTxt = this.add.text(this.w*0.03, this.h*0.1, "Click here after chooosing the materials")
             .setFontSize(35)
             .setInteractive({useHandCursor: true})
@@ -122,26 +126,34 @@ class BuildScene extends Phaser.Scene {
                     this.plasticBoat.x = this.w*0.8;
                     this.plasticBoat.y = this.h*0.5;
                     waterRate -= 1.5;
+                    haveWoodBoat = true;
+                    havePlasticBoat = true;
                 } else if (this.woodBoatCount == 2) {
                     this.woodBoat.x = this.w*0.7;
                     this.woodBoat.y = this.h*0.5;
-                    this.woodBoat.x = this.w*0.8;
-                    this.woodBoat.y = this.h*0.5;
+                    this.woodBoat2.x = this.w*0.8;
+                    this.woodBoat2.y = this.h*0.5;
                     waterRate -= 2;
+                    haveWoodBoat = true;
+                    haveWoodBoat2 = true;
                 } else if (this.plasticBoatCount == 2) {
                     this.plasticBoat.x = this.w*0.7;
                     this.plasticBoat.y = this.h*0.5;
-                    this.plasticBoat.x = this.w*0.8;
-                    this.plasticBoat.y = this.h*0.5;
+                    this.plasticBoat2.x = this.w*0.8;
+                    this.plasticBoat2.y = this.h*0.5;
                     waterRate -= 2.5;
+                    container.add(this.plasticBoat);
+                    container.add(this.plasticBoat2);
                 } else if (this.woodBoatCount == 1) {
                     this.woodBoat.x = this.w*0.75;
                     this.woodBoat.y = this.h*0.5;
                     waterRate -= 0.5;
+                    haveWoodBoat = true;
                 } else if (this.plasticBoatCount == 1) {
                     this.plasticBoat.x = this.w*0.75;
                     this.plasticBoat.y = this.h*0.5;
                     waterRate -= 1;
+                    havePlasticBoat = true;
                 }
                 // Adds the sides
                 if (this.woodSideCount == 1 && this.plasticSideCount == 1) {
@@ -150,28 +162,48 @@ class BuildScene extends Phaser.Scene {
                     this.plasticSide.x = this.w*0.75;
                     this.plasticSide.y = this.h*0.56;
                     waterRate -= 2;
+                    haveWoodSide = true;
+                    havePlasticSide = true;
                 } else if (this.woodSideCount == 2) {
                     this.woodSide.x = this.w*0.75;
                     this.woodSide.y = this.h*0.44;
-                    this.woodSide.x = this.w*0.75;
-                    this.woodSide.y = this.h*0.56;
+                    this.woodSide2.x = this.w*0.75;
+                    this.woodSide2.y = this.h*0.56;
                     waterRate -= 1.5;
+                    haveWoodSide = true;
+                    haveWoodSide2 = true;
                 } else if (this.plasticSideCount == 2) {
                     this.plasticSide.x = this.w*0.75;
                     this.plasticSide.y = this.h*0.44;
-                    this.plasticSide.x = this.w*0.75;
-                    this.plasticSide.y = this.h*0.56;
+                    this.plasticSide2.x = this.w*0.75;
+                    this.plasticSide2.y = this.h*0.56;
                     waterRate -= 2.5;
+                    havePlasticSide = true;
+                    havePlasticSide2 = true;
                 } else if (this.woodSideCount == 1) {
                     this.woodSide.x = this.w*0.75;
                     this.woodSide.y = this.h*0.44;
                     waterRate -= 0.5;
+                    haveWoodSide = true;
                 } else if (this.plasticSideCount == 1) {
                     this.plasticSide.x = this.w*0.75;
                     this.plasticSide.y = this.h*0.44;
                     waterRate -= 1;
+                    havePlasticSide = true;
                 }
             });
+
+            
+
+
+            this.end = this.add.text(this.w*0.6, this.h*0.1, "Looks Good?")
+                .setFontSize(35)
+                .setInteractive({useHandCursor: true})
+                .on('pointerdown', () => {
+                    // Get the list of children
+                    this.scene.start('first');
+                });
+
 
     }
 
