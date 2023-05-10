@@ -1,6 +1,6 @@
 # Demo3: Physics Game
 **Where to play your game (a link to your deployed game)**
-- My deployed game can be found here: https://mikaps.github.io/Demo3/
+- My deployed game can be found here: https://mikaps.github.io/PhysicsGame/
 
 **How your design satisfies the experience requirements below**
 - The game uses both continuous and discrete inputs from the player
