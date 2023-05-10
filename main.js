@@ -5,7 +5,7 @@ const SCALE = 0.5;
 const tileSize = 35;
 let distance = 0;
 let targetDist = 0;
-let level = 2;
+let level = 1;
 let startTime;
 
 // main game object
@@ -28,7 +28,7 @@ let config = {
         }
     },
     // scene: [First, losingScreen]
-    scene: [Instructions]
+    scene: [TitleScreen, Instructions, First, LosingScreen, WinningScreen]
 };
 
 let game = new Phaser.Game(config);

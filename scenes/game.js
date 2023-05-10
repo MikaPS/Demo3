@@ -6,12 +6,10 @@ class First extends Phaser.Scene {
         this.canPress = true;
         this.state = true;
     }
-
    
 
     preload() {
         this.load.image('boat', '../assets/boat/woodboat.png');
-        // this.load.image('table', '../assets/table.png');
         this.load.image('background', './assets/bg.jpeg');
         this.load.image('woodboat', '../assets/boat/woodboat.png');
         this.load.image('woodside', '../assets/boat/woodside.png');        
@@ -23,7 +21,7 @@ class First extends Phaser.Scene {
         this.waterDamage = 0;
         if (level == 1) {
             distance = 0;
-            targetDist = 100;
+            targetDist = 30;
             this.waterDelay = 3000;
             this.rockNum = 1;
             this.rockSpeed = 12;
@@ -35,12 +33,17 @@ class First extends Phaser.Scene {
             this.rockNum = 3;
             this.rockSpeed = 15;
             this.canPick = true;
+            
         } else {
             distance = 0;
-            targetDist = 500;
+            targetDist = 400;
             this.waterDelay = 3500;
             this.rockNum = 5;
-            this.rockSpeed = 15;
+            this.rockSpeed = 12;
+            this.canPick = true;
+            this.collect = 0;
+            this.maxCollect = 5;
+            this.collidedWCollect = false;
         }
         // variables and settings
         this.ACCELERATION = 500;
@@ -56,7 +59,6 @@ class First extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
         cursors = this.input.keyboard.createCursorKeys();
         this.physics.add.collider(this.player, this.background);
-        // this.physics.add.collider(this.player, this.rock);
 
         // mouse interaction
         startTime = this.time.now; // declare a variable to store the start time of the click
@@ -80,7 +82,7 @@ class First extends Phaser.Scene {
             loop: true // Set to true to repeat the event indefinitely
           });
         }
-        this.text = this.add.text(this.sys.game.config.width*0.82, this.sys.game.config.height*0.05, "Dmg: " + this.waterDamage + "%")
+        this.text = this.add.text(this.sys.game.config.width*0.8, this.sys.game.config.height*0.05, "Dmg: " + this.waterDamage + "%")
             .setFontSize(45);
          
         // update distance
@@ -90,10 +92,11 @@ class First extends Phaser.Scene {
             callbackScope: this,
             loop: true // Set to true to repeat the event indefinitely
         });
-        this.distTxt = this.add.text(this.sys.game.config.width*0.82, this.sys.game.config.height*0.1, "Dist: " + parseInt(distance) + "/" + targetDist)
+        this.distTxt = this.add.text(this.sys.game.config.width*0.8, this.sys.game.config.height*0.1, "Dist: " + parseInt(distance) + "/" + targetDist)
             .setFontSize(45);
-        this.lvlTxt = this.add.text(this.sys.game.config.width*0.82, this.sys.game.config.height*0.15, "Level: " + level)
+        this.lvlTxt = this.add.text(this.sys.game.config.width*0.8, this.sys.game.config.height*0.15, "Level: " + level)
             .setFontSize(45);
+        
         // handle rocks
         this.rock = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
         this.rock2 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
@@ -101,12 +104,21 @@ class First extends Phaser.Scene {
         this.rock4 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
         this.rock5 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
 
+        if (level == 2) {
         this.lessDmg = this.physics.add.sprite(-10,0,'woodside')
             .setInteractive({useHandCursor: true})
             .on('pointerdown', () => {
                 this.waterDamage -= 4;
                 this.lessDmg.x = -this.background.width;
             });
+        }
+        if (level == 3) {
+            this.lessDmg = this.physics.add.sprite(-10,0,'woodside')
+            this.collectTxt = this.add.text(this.sys.game.config.width*0.8, this.sys.game.config.height*0.2, "Collect: " + this.collect + "/" + this.maxCollect).setFontSize(45);
+            
+        }
+        this.goal = this.physics.add.sprite(this.sys.game.config.width*0.7,this.sys.game.config.height*0.5,'woodside').setScale(5).setAlpha(0);
+        this.goal.angle = 90;
     }
 
     update() {    
@@ -115,6 +127,17 @@ class First extends Phaser.Scene {
             this.state = false;
             this.scene.start('winningscreen');
         }
+        if (distance+15 >= targetDist) {
+            this.goal.setAlpha(1);
+        }
+        if (this.goal.alpha == 1) {
+            this.goal.x -= 8;
+            this.physics.add.collider(this.player, this.goal, () => {
+                this.state = false;
+                this.scene.start('winningscreen');
+            });
+        }
+
         this.text.setText("Dmg: " + this.waterDamage + "%");
         this.distTxt.setText("Dist: " + parseInt(distance) + "/" + targetDist);
         // background movement        
@@ -148,6 +171,16 @@ class First extends Phaser.Scene {
             this.rockBehavior(this.rock4);
             this.rockBehavior(this.rock5);
             this.dmgBehavior(this.lessDmg);
+            this.collectTxt.setText("Collect: " + this.collect + "/" + this.maxCollect);
+
+            this.physics.add.collider(this.player, this.lessDmg, () => {
+                this.lessDmg.x = -this.background.width;
+                this.collidedWCollect = true;
+            });
+            if (this.collidedWCollect == true) {
+                this.collect += 1;
+                this.collidedWCollect = false;
+            }
         }
         // LOSING CONDITIONS
         this.physics.add.collider(this.player, this.rock, () => {
@@ -208,6 +241,7 @@ class First extends Phaser.Scene {
     }
 
     updateDist() {
+        this.state = true;
         distance += 5;
     }
 

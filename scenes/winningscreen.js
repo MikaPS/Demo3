@@ -3,8 +3,6 @@ class WinningScreen extends Phaser.Scene {
         super('winningscreen');
     }
 
-   
-
     preload() {
         this.load.image('background', './assets/bg.jpeg');        
     }
@@ -36,13 +34,6 @@ class WinningScreen extends Phaser.Scene {
                 this.scene.start('first');
             });   
         }
-         
-        
-
-    }
-
-    update() {    
-
     }
 }
 
@@ -124,8 +115,7 @@ class Instructions extends Phaser.Scene {
             .setInteractive({useHandCursor: true})
             .on('pointerdown', () => {
                 this.scene.start('titlescreen');
-            });   
-
+            });
     }
 }
 
