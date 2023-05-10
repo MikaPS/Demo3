@@ -4,6 +4,7 @@ class First extends Phaser.Scene {
         this.duration = 0;
         this.rock;
         this.canPress = true;
+        this.state = true;
     }
 
    
@@ -19,29 +20,27 @@ class First extends Phaser.Scene {
     }
 
     create() {
+        this.waterDamage = 0;
         if (level == 1) {
             distance = 0;
             targetDist = 100;
             this.waterDelay = 3000;
             this.rockNum = 1;
             this.rockSpeed = 12;
-            waterDamage = 0;
         }
         else if (level == 2) {
             distance = 0;
             targetDist = 300;
-            this.waterDelay = 2500;
+            this.waterDelay = 2700;
             this.rockNum = 3;
             this.rockSpeed = 15;
-            this.hasBucket = true;
-            waterDamage = 0;
+            this.canPick = true;
         } else {
             distance = 0;
             targetDist = 500;
             this.waterDelay = 3500;
             this.rockNum = 5;
             this.rockSpeed = 15;
-            waterDamage = 0;
         }
         // variables and settings
         this.ACCELERATION = 500;
@@ -60,17 +59,19 @@ class First extends Phaser.Scene {
         // this.physics.add.collider(this.player, this.rock);
 
         // mouse interaction
-        var startTime; // declare a variable to store the start time of the click
+        startTime = this.time.now; // declare a variable to store the start time of the click
         this.input.on('pointerdown', function (pointer) {
             startTime = this.time.now; // store the start time when the mouse is clicked
         }, this);
-    
+        
         this.input.on('pointerup', function (pointer) {
-            this.duration = this.time.now - startTime; // calculate the duration by subtracting the start time from the current time
-            // console.log(duration); // print the duration to the console
-            waterDamage += parseInt(this.duration/500);
+            if (this.state) {
+                this.duration = this.time.now - startTime; // calculate the duration by subtracting the start time from the current time
+                this.waterDamage += parseInt(this.duration/500);
+            }
         }, this);
 
+        if (distance < targetDist) {
         // update water damage
         this.time.addEvent({
             delay: this.waterDelay, // The delay between updates, in milliseconds
@@ -78,7 +79,8 @@ class First extends Phaser.Scene {
             callbackScope: this,
             loop: true // Set to true to repeat the event indefinitely
           });
-        this.text = this.add.text(this.sys.game.config.width*0.82, this.sys.game.config.height*0.05, "Dmg: " + waterDamage + "%")
+        }
+        this.text = this.add.text(this.sys.game.config.width*0.82, this.sys.game.config.height*0.05, "Dmg: " + this.waterDamage + "%")
             .setFontSize(45);
          
         // update distance
@@ -98,14 +100,22 @@ class First extends Phaser.Scene {
         this.rock3 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
         this.rock4 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
         this.rock5 = this.physics.add.sprite(-10,0,'boat').setScale(0.2);
+
+        this.lessDmg = this.physics.add.sprite(-10,0,'woodside')
+            .setInteractive({useHandCursor: true})
+            .on('pointerdown', () => {
+                this.waterDamage -= 4;
+                this.lessDmg.x = -this.background.width;
+            });
     }
 
     update() {    
         // WINNING CONDITIONS
         if (distance >= targetDist) {
+            this.state = false;
             this.scene.start('winningscreen');
         }
-        this.text.setText("Dmg: " + waterDamage + "%");
+        this.text.setText("Dmg: " + this.waterDamage + "%");
         this.distTxt.setText("Dist: " + parseInt(distance) + "/" + targetDist);
         // background movement        
         if (this.duration > 0) {
@@ -117,7 +127,6 @@ class First extends Phaser.Scene {
         if (this.background.tilePositionX < -this.background.width) {
           this.background.tilePositionX += this.background.width;
         }
-
         
         // two rocks
         if (level == 1) {
@@ -129,6 +138,7 @@ class First extends Phaser.Scene {
             this.rockBehavior(this.rock);
             this.rockBehavior(this.rock2);
             this.rockBehavior(this.rock3);
+            this.dmgBehavior(this.lessDmg);
         }
         // five rocks
         if (level == 3) {
@@ -137,24 +147,31 @@ class First extends Phaser.Scene {
             this.rockBehavior(this.rock3);
             this.rockBehavior(this.rock4);
             this.rockBehavior(this.rock5);
+            this.dmgBehavior(this.lessDmg);
         }
         // LOSING CONDITIONS
         this.physics.add.collider(this.player, this.rock, () => {
+            this.state = false;
             this.scene.start('losingscreen');
         });
         this.physics.add.collider(this.player, this.rock2, () => {
+            this.state = false;
             this.scene.start('losingscreen');
         });
         this.physics.add.collider(this.player, this.rock3, () => {
+            this.state = false;
             this.scene.start('losingscreen');
         });
         this.physics.add.collider(this.player, this.rock4, () => {
+            this.state = false;
             this.scene.start('losingscreen');
         });
         this.physics.add.collider(this.player, this.rock5, () => {
+            this.state = false;
             this.scene.start('losingscreen');
         });
-        if (waterDamage >= 100) {
+        if (this.waterDamage >= 100) {
+            this.state = false;
             this.scene.start('losingscreen');
         }
         // check keyboard input
@@ -172,12 +189,10 @@ class First extends Phaser.Scene {
             this.player.body.setDragY(this.DRAG);
         }
 
-        
-        // console.log(this.canPress);
         if (this.canPress == true) {
             if (this.input.keyboard.checkDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ONE), 500)) {
-                console.log(this.canPress);
-                waterDamage -= 2;
+                this.waterDamage -= 2;
+                this.canPress = false;
                 this.time.addEvent({
                     delay: 2000, // The delay between updates, in milliseconds
                     callback: this.powerup, // The function to call on each update
@@ -189,7 +204,7 @@ class First extends Phaser.Scene {
     }
 
     updateWater() {
-        waterDamage += 5;
+        this.waterDamage += 5;
     }
 
     updateDist() {
@@ -210,6 +225,18 @@ class First extends Phaser.Scene {
         item.x = x;
         item.y = y;
     }
+
+    dmgBehavior(item) {
+        item.x -= 6;
+        if (item.x < -2*this.background.width) {
+            const x = Math.floor(Math.random() * this.sys.game.config.width + this.sys.game.config.width*0.7);
+            const y = Math.floor(Math.random() * this.sys.game.config.height);
+            // Set the position of the square to the random x and y coordinates
+            item.x = x;
+            item.y = y;
+        }
+    }
+   
 
     powerup() {
         this.canPress = true;
