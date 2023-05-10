@@ -9,15 +9,15 @@ class First extends Phaser.Scene {
    
 
     preload() {
-        this.load.image('boat', '../assets/boat/woodboat.png');
+        this.load.image('boat', './assets/boat/woodboat.png');
         this.load.image('background', './assets/bg.jpeg');
-        this.load.image('woodboat', '../assets/boat/woodboat.png');
-        this.load.image('woodside', '../assets/boat/woodside.png');        
-        this.load.image('plasticboat', '../assets/boat/woodboat.png');
-        this.load.image('plasticside', '../assets/boat/woodside.png');    
-        this.load.image('goal', '../assets/finishline.jpeg');        
-        this.load.image('rock', '../assets/rock.png');        
-        this.load.image('gift', '../assets/gift.png');        
+        this.load.image('woodboat', './assets/boat/woodboat.png');
+        this.load.image('woodside', './assets/boat/woodside.png');        
+        this.load.image('plasticboat', './assets/boat/woodboat.png');
+        this.load.image('plasticside', './assets/boat/woodside.png');    
+        this.load.image('goal', './assets/finishline.jpeg');        
+        this.load.image('rock', './assets/rock.png');        
+        this.load.image('gift', './assets/gift.png');        
     }
 
     create() {

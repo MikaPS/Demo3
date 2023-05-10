@@ -11,10 +11,10 @@ class BuildScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('woodboat', '../assets/boat/woodboat.png');
-        this.load.image('woodside', '../assets/boat/woodside.png');        
-        this.load.image('plasticboat', '../assets/boat/woodboat.png');
-        this.load.image('plasticside', '../assets/boat/woodside.png');        
+        this.load.image('woodboat', './assets/boat/woodboat.png');
+        this.load.image('woodside', './assets/boat/woodside.png');        
+        this.load.image('plasticboat', './assets/boat/woodboat.png');
+        this.load.image('plasticside', './assets/boat/woodside.png');        
 
     }
 
