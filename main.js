@@ -29,10 +29,7 @@ let config = {
             }
         }
     },
-    // scene: [{key: 'titlescreen', class: TitleScreen} ]
-    scene: [TitleScreen, Instructions, First, LosingScreen, WinningScreen]
-       
-        
+    scene: [First]//, [TitleScreen, Instructions, First, LosingScreen, WinningScreen]
 };
 
 let game = new Phaser.Game(config);

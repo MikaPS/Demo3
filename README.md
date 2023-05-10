@@ -1,6 +1,6 @@
 # Demo3: Physics Game
 **Where to play your game (a link to your deployed game)**
-My deployed game can be found here: https://mikaps.github.io/Demo3/
+- My deployed game can be found here: https://mikaps.github.io/Demo3/
 
 **How your design satisfies the experience requirements below**
 - The game uses both continuous and discrete inputs from the player
@@ -19,4 +19,4 @@ Other scenes are used to separate and contextualize the gameplay scenes
 
 
 **How all of your data assets (if you have any) were created**
-I drew all of my assets using the mobile app ibisPaint X and edited the website remove.bg.
+- I drew all of my assets using the mobile app ibisPaint X and edited the website remove.bg.
