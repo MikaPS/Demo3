@@ -1,3 +1,5 @@
+
+
 let cursors;
 let currentScene = 0;
 let waterRate = 10;
@@ -27,8 +29,10 @@ let config = {
             }
         }
     },
-    // scene: [LosingScreen ]
+    // scene: [{key: 'titlescreen', class: TitleScreen} ]
     scene: [TitleScreen, Instructions, First, LosingScreen, WinningScreen]
+       
+        
 };
 
 let game = new Phaser.Game(config);
