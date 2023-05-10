@@ -23,7 +23,7 @@ class First extends Phaser.Scene {
         distance = 0;
         // Different settings for each level
         if (level == 1) {
-            targetDist = 50;
+            targetDist = 100;
             this.waterDelay = 3000;
             this.rockSpeed = 12;
         }
