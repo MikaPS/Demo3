@@ -20,14 +20,14 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            // debug: true,
             gravity: {
                 x: 0,
                 y: 0
             }
         }
     },
-    // scene: [First, losingScreen]
+    // scene: [LosingScreen ]
     scene: [TitleScreen, Instructions, First, LosingScreen, WinningScreen]
 };
 
