@@ -20,3 +20,4 @@
 
 **How all of your data assets (if you have any) were created**
 - I drew all of my assets using the mobile app ibisPaint X and edited using the website remove.bg.
+- Font is found on this link: https://www.1001fonts.com/league-spartan-font.html
