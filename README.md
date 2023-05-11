@@ -13,8 +13,8 @@
         Collision with rocks will lose the game.
 
 - 3+ physics-based gameplay scenes (possibly implemented with a single Phaser Scene subclass).
-Other scenes are used to separate and contextualize the gameplay scenes
     3 gameplay scenes are in the First Phaser Scene. In each level, the game becomes more complicated and introduces new ideas.
+- Other scenes are used to separate and contextualize the gameplay scenes
     There are other scenes in between gameplay: Title scene with the name of the game, Instructions scene, Winning scene, and Losing scene.
 
 
