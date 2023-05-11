@@ -5,6 +5,8 @@ class First extends Phaser.Scene {
         this.rock;
         this.canPress = true;
         this.state = true;
+        this.distance = 0;
+        this.targetDist = 0;
     }
    
     preload() {
@@ -20,24 +22,22 @@ class First extends Phaser.Scene {
     create() {
         this.cameras.main.fadeIn(500);
         this.waterDamage = 0;
-        distance = 0;
+        this.distance = 0;
         // Different settings for each level
         if (level == 1) {
-            targetDist = 100;
+            this.targetDist = 100;
             this.waterDelay = 3000;
             this.rockSpeed = 12;
         }
         else if (level == 2) {
-            targetDist = 300;
+            this.targetDist = 300;
             this.waterDelay = 2700;
             this.rockSpeed = 15;
-            this.canPick = true;
             
         } else {
-            targetDist = 400;
+            this.targetDist = 400;
             this.waterDelay = 3500;
             this.rockSpeed = 12;
-            this.canPick = true;
             this.collect = 0;
             this.maxCollect = 5;
             this.collidedWCollect = false;
@@ -72,7 +72,7 @@ class First extends Phaser.Scene {
         }, this);
 
         // update water damage
-        if (distance < targetDist) {
+        if (this.distance < this.targetDist) {
             this.time.addEvent({
                 delay: this.waterDelay, 
                 callback: this.updateWater, 
@@ -80,7 +80,7 @@ class First extends Phaser.Scene {
                 loop: true 
             });
         }
-        // update distance
+        // update this.distance
         this.time.addEvent({
             delay: 2000, 
             callback: this.updateDist, 
@@ -118,7 +118,7 @@ class First extends Phaser.Scene {
         // Top right texts
         this.text = this.add.text(this.sys.game.config.width*0.8, this.sys.game.config.height*0.05, "Dmg: " + this.waterDamage + "%")
             .setFontSize(45).setDepth(2);
-        this.distTxt = this.add.text(this.sys.game.config.width*0.8, this.sys.game.config.height*0.1, "Dist: " + parseInt(distance) + "/" + targetDist)
+        this.distTxt = this.add.text(this.sys.game.config.width*0.8, this.sys.game.config.height*0.1, "Dist: " + parseInt(this.distance) + "/" + this.targetDist)
             .setFontSize(45).setDepth(2);
         this.lvlTxt = this.add.text(this.sys.game.config.width*0.8, this.sys.game.config.height*0.15, "Level: " + level)
             .setFontSize(45).setDepth(2);
@@ -131,7 +131,7 @@ class First extends Phaser.Scene {
 
     update() {    
         // Show goal when you are close to the target distance
-        if (distance+5 >= targetDist) {
+        if (this.distance+5 >= this.targetDist) {
             this.goal.setAlpha(0.8);
         }
         // Move goal towards player
@@ -146,12 +146,12 @@ class First extends Phaser.Scene {
 
         // Update text
         this.text.setText("Dmg: " + this.waterDamage + "%");
-        this.distTxt.setText("Dist: " + parseInt(distance) + "/" + targetDist);
+        this.distTxt.setText("Dist: " + parseInt(this.distance) + "/" + this.targetDist);
         
         // Looping background movement        
         if (this.duration > 0) {
             this.background.tilePositionX += this.duration/100;
-            distance += 0.05;
+            this.distance += 0.05;
             this.duration -= 10; 
         }
         this.background.tilePositionX += 2;
@@ -236,6 +236,7 @@ class First extends Phaser.Scene {
 
     }
 
+    // Updates water and damage every couple of seconds
     updateWater() {
         this.waterDamage += 5;
         // Make the boat more transparent as the water damage increases
@@ -244,9 +245,10 @@ class First extends Phaser.Scene {
 
     updateDist() {
         this.state = true;
-        distance += 5;
+        this.distance += 5;
     }
 
+    // Defines how rocks work
     rockBehavior(item) {
         item.setAlpha(1);
         item.x -= this.rockSpeed;
@@ -263,6 +265,7 @@ class First extends Phaser.Scene {
         item.y = y;
     }
 
+    // Items move across the screen, and will move to random coordinates when are off the screen
     dmgBehavior(item) {
         item.x -= 6;
         if (item.x < -2*this.background.width) {
@@ -274,10 +277,12 @@ class First extends Phaser.Scene {
         }
     }
    
+    // Pressing 1 triggeres this function which checks if the player should get the power up or if they should wait
     powerup() {
         this.canPress = true;
     }
     
+    // Transition between scenes using fade out
     transition(scene) {
         this.tweens.add({
             targets: this.cameras.main,
@@ -289,6 +294,7 @@ class First extends Phaser.Scene {
           });
     }
 
+    // Touching either of the rocks will trigger this which will lead to a losing screen
     losing(item) {
         this.physics.add.collider(this.player, item, () => {
             this.state = false;
