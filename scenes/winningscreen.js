@@ -139,7 +139,7 @@ class Instructions extends Phaser.Scene {
         // background and player sprites
         this.background =this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2,'background').setScale(4);
 
-        this.add.text(this.sys.game.config.width*0.02, this.sys.game.config.height*0.02, "Dear,\nYou control a boat and will need to reach a certain distance\n to move to the next level.\n\nYou will die when:\n\t- Touching one of the rocks in the water\n\t- The water damage reaches 100% (it will increase over time)\n\nYou can:\n\t- Move up and down using the arrow keys\n\t- Left click the mouse to quickly cover distance,\n\t\t\t\tbut it will increase the water damage more quickly\n\t- Tapping the number '1' on your keyboard will decrease the damage, \n\t\t\t but you can only click it once every few seconds\n\t\t\t(will be highlighted in blue when clickable in top right corner of game)")
+        this.add.text(this.sys.game.config.width*0.02, this.sys.game.config.height*0.02, "Dear,\nYou control a boat and will need to reach a certain distance\n to move to the next level.\n\nYou will die when:\n\t- Touching one of the rocks in the water\n\t- The water damage reaches 100% (it will increase over time)\n\nYou can:\n\t- Move up and down using the arrow keys\n\t- Left click the mouse to quickly cover distance,\n\t\t\t\tbut it will increase the water damage more quickly\n\t- Tapping the number '1' on your keyboard will decrease the\n\t\t\tdamage, but you can only click it once every few seconds\n\t\t\t(will be highlighted in blue when clickable in top right corner of game)")
             .setFontSize(50)
             .setFontFamily('CustomFont')
             .setFontStyle('Bold')
