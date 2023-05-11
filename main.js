@@ -23,6 +23,7 @@ let config = {
         }
     },
     scene: [TitleScreen, Instructions, First, LosingScreen, WinningScreen]
+    // scene: [Instructions]
 };
 
 let game = new Phaser.Game(config);

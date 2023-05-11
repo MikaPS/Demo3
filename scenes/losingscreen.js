@@ -29,7 +29,9 @@ class LosingScreen extends Phaser.Scene {
             .setInteractive({useHandCursor: true})
             .on('pointerdown', () => {
                 startTime = this.time.now;
-                level = 1;
+                if (level == 1) { level = 1; }
+                else if (level == 2) { level = 2; }
+                else { level = 3; }
                 this.scene.start('first');
             });
          
