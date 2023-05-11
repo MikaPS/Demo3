@@ -40,7 +40,7 @@ class WinningScreen extends Phaser.Scene {
             .setFontSize(40);    
         }
         else if (level == 2) {
-            this.add.text(this.sys.game.config.width*0.05, this.sys.game.config.width*0.2, "You have one last mission, some items fell from the boat\n that came before you.\n\nMake sure to collect at least 5 of the items.")
+            this.add.text(this.sys.game.config.width*0.05, this.sys.game.config.width*0.2, "You have one last mission, some items fell from the boat\n that came before you.\n\nMake sure to collect at least 5 of the items.\nYou can collect them by touching them with your boat")
             .setFontSize(50);
             this.move = this.add.text(this.sys.game.config.width*0.27, this.sys.game.config.width*0.4, "Click to move to the next adventure!")
             .setFontSize(60)
@@ -56,7 +56,7 @@ class WinningScreen extends Phaser.Scene {
             const strokeGraphics = this.add.graphics();
             strokeGraphics.lineStyle(5, 0x45fffc); // Set the stroke color and thickness
             strokeGraphics.strokeRect(this.sys.game.config.width*0.05, this.sys.game.config.width*0.067, this.gift.width + 10, this.gift.height + 10); // Position and size the stroke graphics
-            this.add.text(this.sys.game.config.width*0.01, this.sys.game.config.width*0.04, "The item to collect ->")
+            this.add.text(this.sys.game.config.width*0.01, this.sys.game.config.width*0.04, "Collide with the item to collect it ->")
             .setFontSize(40);    
         }
         else if (level == 3) {
@@ -139,7 +139,7 @@ class Instructions extends Phaser.Scene {
         // background and player sprites
         this.background =this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2,'background').setScale(4);
 
-        this.add.text(this.sys.game.config.width*0.02, this.sys.game.config.height*0.02, "Dear,\nYou control a boat and will need to reach a certain distance\n to move to the next level.\n\nYou will die when:\n\t- Touching one of the rocks in the water\n\t- The water damage reaches 100% (it will increase over time)\n\nYou can:\n\t- Move up and down using the arrow keys\n\t- Left click the mouse to quickly cover distance,\n\t\t\t\tbut it will increase the water damage more quickly\n\t- Tap the number '1' on your keyboard will decrease the damage, \n\t\t\t you can only click it once every few seconds\n\t\t\t(will be highlighted in blue when clickable in top right corner of game)")
+        this.add.text(this.sys.game.config.width*0.02, this.sys.game.config.height*0.02, "Dear,\nYou control a boat and will need to reach a certain distance\n to move to the next level.\n\nYou will die when:\n\t- Touching one of the rocks in the water\n\t- The water damage reaches 100% (it will increase over time)\n\nYou can:\n\t- Move up and down using the arrow keys\n\t- Left click the mouse to quickly cover distance,\n\t\t\t\tbut it will increase the water damage more quickly\n\t- Tapping the number '1' on your keyboard will decrease the damage, \n\t\t\t but you can only click it once every few seconds\n\t\t\t(will be highlighted in blue when clickable in top right corner of game)")
             .setFontSize(50)
             .setFontFamily('CustomFont')
             .setFontStyle('Bold')

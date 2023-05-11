@@ -1,6 +1,6 @@
 let cursors;
 let waterRate = 10;
-let level = 1;
+let level = 2;
 let startTime;
 
 // main game object
