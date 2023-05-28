@@ -59,17 +59,17 @@ class First extends Phaser.Scene {
         this.goal = this.physics.add.sprite(this.sys.game.config.width*0.7,this.sys.game.config.height*0.5,'goal').setScale(1,2).setAlpha(0);
 
         // mouse interaction
-        startTime = this.time.now; // declare a variable to store the start time of the click
-        this.input.on('pointerdown', function (pointer) {
-            startTime = this.time.now; // store the start time when the mouse is clicked
-        }, this);
+        // startTime = this.time.now; // declare a variable to store the start time of the click
+        // this.input.on('pointerdown', function (pointer) {
+        //     startTime = this.time.now; // store the start time when the mouse is clicked
+        // }, this);
         
-        this.input.on('pointerup', function (pointer) {
-            if (this.state) {
-                this.duration = this.time.now - startTime; // calculate the duration by subtracting the start time from the current time
-                this.waterDamage += parseInt(this.duration/500);
-            }
-        }, this);
+        // this.input.on('pointerup', function (pointer) {
+        //     if (this.state) {
+        //         this.duration = this.time.now - startTime; // calculate the duration by subtracting the start time from the current time
+        //         this.waterDamage += parseInt(this.duration/500);
+        //     }
+        // }, this);
 
         // update water damage
         if (this.distance < this.targetDist) {
@@ -126,7 +126,23 @@ class First extends Phaser.Scene {
         // Show when to click number 1
         this.one = this.add.rectangle(this.sys.game.config.width*0.97,this.sys.game.config.height*0.05, this.sys.game.config.height*0.05, this.sys.game.config.height*0.05, 0xb0b7c2);
         this.oneTxt = this.add.text(this.sys.game.config.width*0.964,this.sys.game.config.height*0.035, "1", { fill: '#000000' }).setFontSize(40);
-        
+        // Up
+    
+        this.add.rectangle(this.sys.game.config.width*0.9, this.sys.game.config.height*0.8, this.sys.game.config.width*0.05, this.sys.game.config.width*0.05, 0xb0b7c2)
+            .setInteractive() 
+            .on('pointerdown', () => {
+                this.player.y -= 10;
+            });
+        let up_button = this.add.text(this.sys.game.config.width*0.9, this.sys.game.config.height*0.8, "Up", { fill: '#000000' })
+            .setScale();
+            // Down
+        this.add.rectangle(this.sys.game.config.width*0.9, this.sys.game.config.height*0.9, this.sys.game.config.width*0.05, this.sys.game.config.width*0.05, 0xb0b7c2)
+            .setInteractive() 
+            .on('pointerdown', () => {
+                this.player.y += 10;
+            });
+            let down_button = this.add.text(this.sys.game.config.width*0.9, this.sys.game.config.height*0.9, "down", { fill: '#000000' })
+            
     } 
 
     update() {    
